@@ -1,0 +1,53 @@
+name: Kanvas Snapshot Generator
+
+on:
+  workflow_dispatch:
+    inputs:
+      design_id:
+        description: 'The design ID to generate a snapshot for'
+        required: true
+
+permissions: 
+  contents: write
+
+jobs:
+  GenerateSnapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: |
+          echo "Installing dependencies for snapshot generation"
+          npm install -g puppeteer-cli
+
+      - name: Create Directory Structure
+        run: |
+          mkdir -p action-assets/kubectl-plugin-assets
+
+      - name: Generate Snapshot
+        env:
+          MESHERY_TOKEN: ${{ secrets.MESHERY_TOKEN }}
+          DESIGN_ID: ${{ github.event.inputs.design_id }}
+        run: |
+          echo "Generating snapshot for design ID: ${{ github.event.inputs.design_id }}"
+          # Use puppeteer to create a screenshot of the design
+          npx puppeteer screenshot https://playground.meshery.io/extension/designs/$DESIGN_ID \
+            action-assets/kubectl-plugin-assets/$DESIGN_ID.png \
+            --wait-for-selector=".design-view" \
+            --full-page
+
+      - name: Commit and Push Image
+        run: |
+          echo "Committing snapshot image to repository"
+          git config --global user.name "Snapshot Generator"
+          git config --global user.email "actions@github.com"
+          git add action-assets/kubectl-plugin-assets/${{ github.event.inputs.design_id }}.png
+          git commit -m "Add snapshot for design ID ${{ github.event.inputs.design_id }}"
+          git push 
