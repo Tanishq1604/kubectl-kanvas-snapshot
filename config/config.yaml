@@ -1,0 +1,17 @@
+# Configuration for kubectl-kanvas-snapshot plugin
+
+# Meshery server configuration
+meshery:
+  # URL of the Meshery server
+  url: "https://playground.meshery.io"
+  # API endpoint for snapshot creation
+  snapshot_endpoint: "/api/pattern/kanvas"
+
+# Default settings
+defaults:
+  # Default name for snapshots if not specified
+  snapshot_name: "kubectl-snapshot"
+  # Default timeout in seconds for API requests
+  timeout_seconds: 30
+  # Default notification settings
+  notify_on_completion: true 

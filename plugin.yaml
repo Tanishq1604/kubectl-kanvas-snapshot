@@ -1,0 +1,40 @@
+apiVersion: krew.googlecontainertools.github.com/v1alpha2
+kind: Plugin
+metadata:
+  name: kanvas-snapshot
+spec:
+  version: "v0.1.0"
+  platforms:
+  - selector:
+      matchLabels:
+        os: linux
+        arch: amd64
+    uri: https://github.com/meshery/kubectl-kanvas-snapshot/releases/download/v0.1.0/kubectl-kanvas-snapshot_0.1.0_linux_amd64.tar.gz
+    sha256: "TBD" # Will be filled during release
+    bin: kubectl-kanvas-snapshot
+  - selector:
+      matchLabels:
+        os: darwin
+        arch: amd64
+    uri: https://github.com/meshery/kubectl-kanvas-snapshot/releases/download/v0.1.0/kubectl-kanvas-snapshot_0.1.0_darwin_amd64.tar.gz
+    sha256: "TBD" # Will be filled during release
+    bin: kubectl-kanvas-snapshot
+  - selector:
+      matchLabels:
+        os: windows
+        arch: amd64
+    uri: https://github.com/meshery/kubectl-kanvas-snapshot/releases/download/v0.1.0/kubectl-kanvas-snapshot_0.1.0_windows_amd64.zip
+    sha256: "TBD" # Will be filled during release
+    bin: kubectl-kanvas-snapshot.exe
+  shortDescription: "Generate visual snapshots of Kubernetes manifests using Meshery"
+  description: |
+    kanvas-snapshot is a kubectl plugin that generates visual snapshots
+    of Kubernetes manifests through Meshery's Kanvas Snapshot service.
+
+    It allows you to quickly visualize your Kubernetes manifests as
+    interactive diagrams, which can be shared with your team or used
+    for documentation.
+
+    Example usage:
+      kubectl kanvas-snapshot -f manifest.yaml
+      kubectl kanvas-snapshot -f manifest.yaml -e user@example.com --name my-app 
