@@ -711,8 +711,8 @@ func init() {
 
 // Update how we generate URLs for viewing designs
 func getDesignViewURL(designID string) string {
-	// Meshery UI URLs are typically structured as /extension/meshmap/design/<designID>
-	return fmt.Sprintf("%s/extension/meshmap/design/%s",
+	// Meshery UI URLs are structured as /extension/meshmap?mode=design&design=<designID>
+	return fmt.Sprintf("%s/extension/meshmap?mode=design&design=%s",
 		strings.TrimSuffix(MesheryAPIBaseURL, "/api"), designID)
 }
 
