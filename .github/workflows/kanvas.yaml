@@ -1,0 +1,38 @@
+name: Kanvas Snapshot
+on:
+  workflow_dispatch:
+    inputs:
+      designID:
+        description: 'The design ID to generate a snapshot for'
+        required: true
+
+permissions: 
+  actions: read
+  contents: write
+  security-events: write
+  statuses: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  GenerateSnapshot:
+    runs-on: ubuntu-latest
+    outputs:
+      snapshot_url: ${{ steps.generate_snapshot.outputs.resource_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          path: action
+          repository: layer5labs/kanvas-snapshot
+      - id: generate_snapshot
+        uses: layer5labs/kanvas-snapshot@v0.2.32
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          mesheryToken: ${{ secrets.MESHERY_TOKEN }}
+          application_type: "Design"
+          skipComment: true
+          designID: ${{ inputs.designID }}
+      - name: Output Snapshot URL
+        run: |
+          echo "Snapshot URL: ${{ steps.generate_snapshot.outputs.resource_url }}" 
