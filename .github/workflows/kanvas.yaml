@@ -53,28 +53,9 @@ jobs:
           skipComment: true
           designID: ${{ inputs.designID }}
           assetLocation: ${{ inputs.assetLocation }}
-          
-      - name: Check for Generated Screenshots
-        id: check_screenshots
-        run: |
-          if [ -d "action/cypress/screenshots" ]; then
-            echo "Screenshots generated successfully"
-            echo "screenshot_path=action/cypress/screenshots" >> $GITHUB_OUTPUT
-          else
-            echo "::error::No screenshots were generated"
-            exit 1
-          fi
-          
-      - name: Upload Screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: design-screenshots
-          path: ${{ steps.check_screenshots.outputs.screenshot_path }}
-          
+            
       - name: Output Results
         run: |
           echo "Design ID: ${{ inputs.designID }}"
-          echo "Meshery URL: ${{ env.MESHERY_URL }}"
           echo "Asset Location: ${{ inputs.assetLocation }}"
           echo "Screenshot artifacts are available in the workflow artifacts section"
