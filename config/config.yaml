@@ -5,7 +5,7 @@ meshery:
   # URL of the Meshery server
   url: "https://playground.meshery.io"
   # API endpoint for snapshot creation
-  snapshot_endpoint: "/api/pattern/kanvas"
+  snapshot_endpoint: "/api/pattern/import"
 
 # Default settings
 defaults:
